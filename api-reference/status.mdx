@@ -1,0 +1,52 @@
+---
+title: "API Status"
+description: "Check the health and availability of the PesaHub API"
+icon: "signal"
+api: "GET https://pesahub.test/api/status"
+authMethod: "none"
+---
+
+## Overview
+
+Use this endpoint to verify that the PesaHub API is up and running. This is the only endpoint that does **not** require authentication.
+
+## Authentication
+
+None required.
+
+## Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X GET https://pesahub.test/api/v1/status
+```
+
+```javascript Node.js
+const response = await fetch('https://pesahub.co/api/status');
+const data = await response.json();
+console.log(data);
+```
+
+```python Python
+import requests
+
+response = requests.get('https://pesahub.co/api/status')
+print(response.json())
+```
+
+</CodeGroup>
+
+## Response
+
+<ResponseField name="status" type="string">
+  API health status (e.g., `ok`)
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Human-readable status message
+</ResponseField>
+
+<Note>
+  If this endpoint is unreachable, the PesaHub API may be experiencing downtime. Check the PesaHub status page or contact support.
+</Note>

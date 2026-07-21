@@ -1,0 +1,127 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Pesahub",
+  "colors": {
+    "primary": "#0891b2",
+    "light": "#0aa5cc",
+    "dark": "#0891b2"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Getting started",
+            "pages": [
+              "index",
+              "creating-api-token"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API reference",
+        "pages": [
+          {
+            "group": "Account",
+            "pages": [
+              "balance",
+              "transactions"
+            ]
+          },
+          {
+            "group": "USSD Collection",
+            "pages": [
+              "api-reference/collection/check-payment-status",
+              "api-reference/collection/send-ussd-push"
+            ]
+          },
+          {
+            "group": "Bill Payment",
+            "hidden": true,
+            "pages": [
+              "api-reference/collection/create-a-bill",
+              "api-reference/collection/update-bill-order",
+              "api-reference/collection/get-bill-status",
+              "api-reference/collection/change-bill-status"
+            ]
+          },
+          {
+            "group": "Payout",
+            "pages": [
+              "api-reference/payout/get-payout-status",
+              "api-reference/payout/mobile-payout",
+              "api-reference/payout/bank-payout"
+            ]
+          },
+          "api-reference/status"
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Pesahub",
+          "href": "https://pesahub.co",
+          "icon": "book-open-cover",
+          "color": {
+            "light": "#0891b2",
+            "dark": "#0891b2"
+          }
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://pesahub.co/blog",
+          "icon": "newspaper"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "https://raw.githubusercontent.com/pesahubCo/docs/refs/heads/main/brand/logo-dark.svg",
+    "dark": "https://raw.githubusercontent.com/pesahubCo/docs/refs/heads/main/brand/logo-white.svg",
+    "href": "https://pesahub.co"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Support",
+        "href": "mailto:support@pesahu.co"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.mintlify.com"
+    }
+  },
+  "contextual": {
+    "options": [
+     "copy",
+     "view",
+     "chatgpt",
+     "claude",
+     "perplexity",
+     "mcp",
+     "cursor",
+     "vscode"
+   ]
+  },
+  "footer": {
+    "socials": {
+      "linkedin": "https://linkedin.com/company/mintlify"
+    }
+  },
+  "api": {
+    "mdx": {
+      "auth": {
+        "method": "bearer"
+      },
+      "server": "https://pesahub.co"
+    }
+  },
+  "description": "PesaHub is a secure payment gateway that enables businesses to accept online payments through multiple payment methods. It provides fast, reliable, and seamless payment processing with easy integration for websites, mobile apps, and enterprise systems."
+}

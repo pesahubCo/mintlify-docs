@@ -1,0 +1,176 @@
+---
+title: "Check Payout Status"
+description: "Retrieves the current status and details of a payout using its transaction ID."
+api: "GET /api/payouts/check/{transaction_id}"
+---
+
+## Endpoint
+
+```http
+GET /api/payouts/check/{transaction_id}
+```
+
+## Authentication
+
+Requires a Bearer token in the `Authorization` header.
+
+```http
+Authorization: Bearer {{api_key}}
+```
+
+## Request Headers
+
+| Header | Value |
+| --- | --- |
+| `Accept` | `application/json` |
+| `Content-Type` | `application/json` |
+
+## Path Parameters
+
+<ParamField path="transaction_id" type="string" required>
+  Unique identifier of the payout transaction.
+</ParamField>
+
+## Example Request
+
+```bash cURL
+curl -X GET https://pesahub.co/api/v1/payouts/f19605f6-f67e-4230-8152-30b35740a024 \
+  -H "Authorization: Bearer {{api_key}}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json"
+```
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  Indicates whether the request was successful.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Human-readable response message.
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Current payout status (`pending`, `paid`, `failed`, or `cancelled`).
+</ResponseField>
+
+<ResponseField name="payout.event" type="string">
+  Latest payout event (for example, `payout.completed` or `payout.failed`).
+</ResponseField>
+
+<ResponseField name="payout.transaction_id" type="string">
+  Unique identifier of the payout transaction.
+</ResponseField>
+
+<ResponseField name="payout.transaction_method" type="string">
+  Payout method (`mobile` or `ach`).
+</ResponseField>
+
+<ResponseField name="payout.amount.value" type="string">
+  Payout amount.
+</ResponseField>
+
+<ResponseField name="payout.amount.fee" type="string">
+  Transaction fee charged for the payout.
+</ResponseField>
+
+<ResponseField name="payout.mobile.phone_number" type="string">
+  Recipient phone number (for mobile payouts).
+</ResponseField>
+
+<ResponseField name="payout.mobile.network" type="string">
+  Mobile network provider (for example, `airtel`, `vodacom`, `tigo`).
+</ResponseField>
+
+<ResponseField name="payout.bank.account_number" type="string">
+  Recipient bank account number (for ACH payouts).
+</ResponseField>
+
+<ResponseField name="payout.bank.name" type="string">
+  Bank name (for ACH payouts).
+</ResponseField>
+
+<ResponseField name="payout.bank.bic" type="string">
+  Bank Identifier Code (for ACH payouts).
+</ResponseField>
+
+<ResponseField name="payout.paid_at" type="string">
+  ISO 8601 timestamp when the payout was completed.
+</ResponseField>
+
+<ResponseField name="payout.failure_reason" type="string">
+  Reason for payout failure (only present for failed payouts).
+</ResponseField>
+
+## Example Responses
+
+### Mobile Payout (Paid)
+
+```json
+{
+    "success": true,
+    "message": "Payout status retrieved successfully",
+    "status": "paid",
+    "payout": {
+        "event": "payout.completed",
+        "transaction_id": "f19605f6-f67e-4230-8152-30b35740a024",
+        "transaction_method": "mobile",
+        "amount": {
+            "value": "10,000.00",
+            "fee": "100.00"
+        },
+        "mobile": {
+            "phone_number": "255682908805",
+            "network": "airtel"
+        },
+        "paid_at": "2026-07-12T15:07:28.000000Z"
+    }
+}
+```
+
+### Bank Payout (Paid)
+
+```json
+{
+    "success": true,
+    "message": "Payout status retrieved successfully",
+    "status": "paid",
+    "payout": {
+        "event": "payout.completed",
+        "transaction_id": "f19605f6-f67e-4230-8152-30b35740a024",
+        "transaction_method": "ach",
+        "amount": {
+            "value": "50,000.00",
+            "fee": "100.00"
+        },
+        "bank": {
+            "account_number": "0123456789",
+            "name": "CRDB Bank",
+            "bic": "CORUTZTZ"
+        },
+        "paid_at": "2026-07-12T15:07:28.000000Z"
+    }
+}
+```
+
+### Payout Failed
+
+```json
+{
+    "success": true,
+    "message": "Payout status retrieved successfully",
+    "status": "failed",
+    "payout": {
+        "event": "payout.failed",
+        "transaction_id": "f19605f6-f67e-4230-8152-30b35740a024",
+        "amount": {
+            "value": "5,000.00"
+        },
+        "failure_reason": "Insufficient balance at gateway"
+    }
+}
+```
+
+<Note>
+  Poll this endpoint using the transaction ID to monitor payout progress until the transaction reaches a final state (`paid`, `failed`, or `cancelled`).
+</Note>

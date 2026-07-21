@@ -1,0 +1,47 @@
+---
+title: "Creating an API Token"
+icon: "key-skeleton"
+---
+
+An API token can be created after enabling two-factor authentication on your account.
+
+## Creating a Token
+
+1. Open the sidebar and expand the **Settings** menu.
+2. Select **Integrations** from the available options.
+3. You will be redirected to the API token management page.
+4. Click the **Create Token** button in the top-right corner.
+5. Complete the token configuration form.
+
+## Token Configuration
+
+### Token Name
+
+A descriptive name used to identify the API token.
+
+This helps you manage multiple tokens across different applications or environments.
+
+### Callback URL
+
+The URL that will receive webhook notifications for events triggered by the platform.
+
+Examples of supported events include:
+
+- `payment.received`
+- `payment.failed`
+
+Your callback endpoint should be publicly accessible and capable of processing incoming webhook requests.
+
+### Passphrase
+
+A secret key used to generate webhook signatures for verifying callback requests.
+
+For every webhook notification, the platform generates a SHA-256 HMAC signature using the event payload and this passphrase. The generated signature is included with the webhook request, allowing your application to verify that the request originated from the platform and that the payload has not been altered.
+
+Keep this passphrase secure and avoid exposing it publicly.
+
+### Permission
+
+Defines the features and resources that the generated API token can access.
+
+Only enable the permissions required by your application to maintain proper access control and security.

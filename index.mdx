@@ -1,0 +1,46 @@
+---
+title: "Introduction"
+icon: "star"
+description: "Welcome to the new home for PesaHubs documentation"
+---
+
+PesaHub enables merchants to accept and manage digital payments through multiple channels. All API requests require a **Bearer token** in the `Authorization` header (except the status check).
+
+**Base URL:** `https://pesahub.co/api`
+
+## Features
+
+<Columns cols={2}>
+  <Card title="Mobile Money" icon="mobile">
+    M-Pesa, Airtel Money, Halopesa, Mixx by Yas, and TIPS Dynamic QR.
+  </Card>
+
+  <Card title="Instant Settlement" icon="bolt">
+    Transactions settled quickly, often within hours.
+  </Card>
+
+  <Card title="Real-time Dashboard" icon="chart-line">
+    Monitor transactions, revenue, and analytics live.
+  </Card>
+
+  <Card title="Developer Friendly" icon="code">
+    APIs, SDKs, sandbox environments, and comprehensive docs.
+  </Card>
+</Columns>
+
+## Authentication
+
+Every request (except `/v1/status`) must include a Bearer token:
+
+```http
+Authorization: Bearer {{api_key}}
+```
+
+<Columns cols={2}>
+  <Column>
+  </Column>
+  <Column>
+  </Column>
+  <Column>
+  </Column>
+</Columns>

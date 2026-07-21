@@ -1,0 +1,175 @@
+---
+title: "Bank Payout"
+description: "Send money directly to a bank account"
+api: "POST /api/v1/payouts/bank"
+---
+
+## Overview
+
+The Bank Payout API allows you to transfer funds directly to a recipient's bank account. Use the **preview** endpoint to see fee breakdowns, **initiate** to execute the transfer, and **list** to retrieve past bank payouts.
+
+---
+
+## Preview Bank Payout
+
+Calculate fees and validate recipient details before committing.
+
+```http
+POST /api/v1/payouts/bank/preview
+```
+
+### Request Headers
+
+| Header | Value |
+| --- | --- |
+| `Accept` | `application/json` |
+| `Content-Type` | `application/json` |
+
+### Request Body
+
+<ParamField body="amount" type="integer" required>
+  Amount to send in the specified currency
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., `TZS`)
+</ParamField>
+
+<ParamField body="account_number" type="string" required>
+  Recipient's bank account number
+</ParamField>
+
+<ParamField body="bic" type="string" required>
+  Bank Identifier Code (BIC/SWIFT) of the destination bank
+</ParamField>
+
+<ParamField body="beneficiary" type="object" required>
+  Recipient details
+
+  <Expandable title="beneficiary">
+    <ParamField body="full_name" type="string" required>
+      Recipient's full name as registered with the bank
+    </ParamField>
+
+    <ParamField body="phone_number" type="string">
+      Recipient's phone number
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key-value pairs for your reference. Maximum of 3 items, each less than 100 characters.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://pesahub.co/api/v1/payouts/bank/preview \
+  -H "Authorization: Bearer {{api_key}}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 10000,
+    "currency": "TZS",
+    "beneficiary": {
+      "phone_number": "07XXXXXXXX",
+      "full_name": "DEMO RECIPIENT"
+    },
+    "account_number": "XXXXXXXXXXXX",
+    "bic": "NLCBTZTX",
+    "metadata": {
+      "order_id": "order_001",
+      "notes": "Payment for services"
+    }
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Initiate Bank Payout
+
+Execute the bank transfer.
+
+```http
+POST /v1/payouts/bank
+```
+
+### Request Body
+
+Same fields as the preview endpoint.
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://pesahub.co/api/v1/payouts/bank \
+  -H "Authorization: Bearer {{api_key}}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 5000,
+    "currency": "TZS",
+    "beneficiary": {
+      "phone_number": "07XXXXXXXX",
+      "full_name": "DEMO RECIPIENT"
+    },
+    "account_number": "XXXXXXXXXXXX",
+    "bic": "NLCBTZTX",
+    "metadata": {
+      "order_id": "order_001",
+      "notes": "Payment for services"
+    }
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## List Banks
+
+Retrieve a list of all bank payouts.
+
+```http
+GET /v1/payouts/bank/list
+```
+
+### Example Request
+
+```bash cURL
+curl -X GET https://pesahub.co/api/v1/payouts/bank/list \
+  -H "Authorization: Bearer {{api_key}}" \
+  -H "Accept: application/json"
+```
+
+<CodeGroup>
+
+```bash Curl
+{
+    "success": true,
+    "message": "Bank list retrieved successfully",
+    "banks": [
+        {
+            "name": "ABSA BANK TANZANIA LIMITED",
+            "value": "absa_bank_tanzania_limited",
+            "bic": "BARCTZTZ"
+        },
+        {
+            "name": "AKIBA COMMERCIAL BANK PLC",
+            "value": "akiba_commercial_bank_plc",
+            "bic": "AKCOTZTZ"
+        }
+    ]
+}
+```
+
+</CodeGroup>
+
+<Tip>
+  Always run a **preview** before initiating a bank payout to validate the BIC and account number are correct.
+</Tip>

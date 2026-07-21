@@ -1,0 +1,23 @@
+---
+title: "Balance"
+description: "Retrieves the merchant balance"
+api: "GET /api/v1/balace"
+---
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  Indicates whether the request was successful.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Human-readable response message.
+</ResponseField>
+
+<ResponseField name="balance.value" type="decimal">
+  The balance value
+</ResponseField>
+
+<ResponseField name="balance.currence" type="string">
+  The balance Currency
+</ResponseField>

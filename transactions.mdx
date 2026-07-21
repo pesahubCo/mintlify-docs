@@ -1,0 +1,53 @@
+---
+title: "Transactions"
+description: "Retrieve a paginated list of transactions"
+api: "GET /api/v1/transactions"
+---
+
+## Overview
+
+Retrieves all transactions for the authenticated user with support for pagination and filtering. Transactions are returned in reverse chronological order (newest first).
+
+## Request Headers
+
+| Header | Value |
+| --- | --- |
+| `Accept` | `application/json` |
+| `Content-Type` | `application/json` |
+| `Authorization` | `Bearer {api_key}` |
+
+## Request Parameters
+
+<ParamField query="page" default="1" type="integer">
+  The page number for pagination. Starts at 1.
+</ParamField>
+
+<ParamField query="per_page" default="20" type="integer">
+  Number of transactions to return per page. Maximum is 100.
+</ParamField>
+
+## Response
+
+<ResponseField name="success" type="boolean">
+  Indicates whether the request was successful.
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  Human-readable response message. Returns "Transactions retrieved successfully" on success.
+</ResponseField>
+
+<ResponseField name="pagination.current_page" type="integer">
+  Current page number.
+</ResponseField>
+
+<ResponseField name="pagination.last_page" type="integer">
+  Last page number.
+</ResponseField>
+
+<ResponseField name="pagination.per_page" type="integer">
+  Number of items per page.
+</ResponseField>
+
+<ResponseField name="pagination.total_items" type="integer">
+  Total number of items available
+</ResponseField>

@@ -1,0 +1,96 @@
+---
+title: "Initiate USSD Push"
+description: "Trigger a USSD push payment to the customer's mobile wallet"
+api: "POST /api/v1/payments/ussd"
+---
+
+## Overview
+
+Sends a USSD push prompt to the customer's phone, asking them to authorize a payment from their mobile money wallet. Supports M-Pesa, Airtel Money, Halopesa, Mixx by Yas, and TIPS Dynamic QR.
+
+## Request Headers
+
+| Header | Value |
+| --- | --- |
+| `Accept` | `application/json` |
+| `Content-Type` | `application/json` |
+
+## Request Body
+
+<ParamField body="amount" type="integer" required>
+  Amount to charge in the specified currency, the minimum amount varies, the standard minimum is 1000 TZS, while some networks i.e Airtel Money may support as low as 500 TZS
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., `TZS`)
+</ParamField>
+
+<ParamField body="phone_number" type="string" required>
+  Customer's phone number (e.g., `07XXXXXXXX`)
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key-value pairs for your reference. Maximum of 3 items, each less than 100 characters.
+</ParamField>
+
+## Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://pesahub.co/api/v1/payments/ussd \
+  -H "Authorization: Bearer {{api_key}}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 1000,
+    "currency": "TZS",
+    "phone_number": "07XXXXXXXX",
+    "metadata": {
+      "order_id": "order_001",
+      "customer_note": "Payment for services"
+    }
+  }'
+```
+
+</CodeGroup>
+
+## Request Body Example
+
+```json
+{
+  "amount": 1000,
+  "currency": "TZS",
+  "phone_number": "07XXXXXXXX",
+  "metadata": {
+    "order_id": "order_001",
+    "customer_note": "Payment for services"
+  }
+}
+```
+
+## Response
+
+<ResponseField name="id" type="string">
+  Unique transaction identifier
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Transaction status (e.g., `pending`, `completed`, `failed`)
+</ResponseField>
+
+<ResponseField name="amount" type="integer">
+  Amount processed
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of transaction creation
+</ResponseField>
+
+<Note>
+  The customer will receive a USSD prompt on their phone to confirm the payment. Ensure the phone number matches an active mobile money account.
+</Note>

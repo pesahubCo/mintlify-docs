@@ -1,0 +1,144 @@
+---
+title: "Mobile Payout"
+description: "Send money directly to a mobile money wallet"
+api: "POST https://pesahub.co/api/v1/payouts/mobile"
+---
+
+## Overview
+
+The Mobile Payout API lets you send funds directly to a recipient's mobile money wallet. Use the **preview** endpoint first to see fee breakdowns, then call **initiate** to execute the transfer.
+
+---
+
+## Preview Mobile Payout
+
+Calculate fees and preview the payout before committing.
+
+```http
+POST /api/v1/payouts/mobile/preview
+```
+
+### Request Headers
+
+| Header | Value |
+| --- | --- |
+| `Accept` | `application/json` |
+| `Content-Type` | `application/json` |
+
+### Request Body
+
+<ParamField body="amount" type="integer" required>
+  Amount to send in the specified currency
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., `TZS`)
+</ParamField>
+
+<ParamField body="phone_number" type="string" required>
+  Recipient's phone number (e.g., `07XXXXXXXX`)
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key-value pairs for your reference. Maximum of 3 items, each less than 100 characters.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://pesahub.co/api/v1/payouts/mobile/preview \
+  -H "Authorization: Bearer {{api_key}}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 1500,
+    "currency": "TZS",
+    "phone_number": "07XXXXXXXX",
+    "metadata": {
+      "order_id": "order_001",
+      "note": "Payment for services"
+    }
+  }'
+```
+
+</CodeGroup>
+
+---
+
+## Initiate Mobile Payout
+
+Execute the mobile money transfer to the recipient.
+
+```http
+POST /v1/payouts/mobile
+```
+
+### Request Body
+
+Same fields as the preview endpoint.
+
+<ParamField body="amount" type="integer" required>
+  Amount to send in the specified currency
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code (e.g., `TZS`)
+</ParamField>
+
+<ParamField body="phone_number" type="string" required>
+  Recipient's phone number
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Arbitrary key-value pairs for your reference. Maximum of 3 items, each less than 100 characters.
+</ParamField>
+
+### Example Request
+
+<CodeGroup>
+
+```bash cURL
+curl -X POST https://pesahub.co/api/v1/payouts/mobile \
+  -H "Authorization: Bearer {{api_key}}" \
+  -H "Accept: application/json" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": 1000,
+    "currency": "TZS",
+    "phone_number": "07XXXXXXXX",
+    "metadata": {
+      "order_id": "order_001",
+      "note": "Payment for services"
+    }
+  }'
+```
+
+</CodeGroup>
+
+## Response
+
+<ResponseField name="id" type="string">
+  Unique transaction identifier
+</ResponseField>
+
+<ResponseField name="status" type="string">
+  Transaction status (e.g., `pending`, `completed`, `failed`)
+</ResponseField>
+
+<ResponseField name="amount" type="integer">
+  Amount processed
+</ResponseField>
+
+<ResponseField name="currency" type="string">
+  Currency code
+</ResponseField>
+
+<ResponseField name="created_at" type="string">
+  ISO 8601 timestamp of transaction creation
+</ResponseField>
+
+<Tip>
+  Always run a **preview** before initiating a payout to confirm fees and ensure the recipient details are correct.
+</Tip>
