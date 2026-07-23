@@ -1,0 +1,52 @@
+---
+title: "Token Details"
+description: "Retrieve information about the currently authenticated API token."
+api: "GET /v1/account/token"
+---
+
+Retrieve information about the currently authenticated API token, including its name, configured webhook URL, granted permissions, and expiration date.
+
+## Response
+
+<ResponseField name="success" type="boolean" required>
+  Indicates whether the request was successful.
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Human-readable response message.
+</ResponseField>
+
+<ResponseField name="token" type="object" required>
+  <Expandable title="token">
+    <ResponseField name="name" type="string">
+      The name assigned to the API token.
+    </ResponseField>
+
+    <ResponseField name="webhook" type="string">
+      The callback URL configured to receive webhook notifications.
+    </ResponseField>
+
+    <ResponseField name="abilities" type="string[]">
+      List of permissions granted to the API token.
+    </ResponseField>
+
+    <ResponseField name="expires_at" type="string | null">
+      Expiration date and time in ISO 8601 format. Returns `null` if the token does not expire.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Example Response
+
+```json
+{
+  "success": true,
+  "message": "Token details retrieved successfully",
+  "token": {
+    "name": "Base",
+    "webhook": "https://example.com",
+    "abilities": ["collection:create", "collection:manage"],
+    "expires_at": null
+  }
+}
+```

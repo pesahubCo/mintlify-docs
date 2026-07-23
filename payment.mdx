@@ -1,0 +1,85 @@
+---
+title: "Payment"
+---
+
+When an event occurs, the platform sends an HTTP `POST` request to your configured callback URL. Each webhook request contains an `event` field that identifies the type of notification being delivered.
+
+## Payment Received
+
+Triggered when a payment has been successfully completed and settled.
+
+**Event:** `payment.received`
+
+### Payload
+
+```json
+{
+    "event": "payment.received",
+    "amount": {
+        "fee": "10.00",
+        "value": "1,000.00",
+        "settled": "990.00"
+    },
+    "channel": {
+        "name": "AIRTEL-MONEY",
+        "reference": "MP260712.1803.R20406"
+    },
+    "customer": {
+        "full_name": "ABDULBASIT RUBEIYYA",
+        "phone_number": "255682908805"
+    },
+    "metadata": {
+        "order_id": "128128",
+        "customer_note": "Test payment"
+    },
+    "transaction_id": "70ea1299-72f4-43c7-b65f-84d10af8547c",
+    "transaction_mode": "ussd",
+    "transaction_currency": "TZS",
+    "timestamp": "2026-07-12T15:07:28.653212Z",
+    "created_at": "2026-07-12T15:03:07.000000Z",
+    "updated_at": "2026-07-12T15:07:28.000000Z"
+}
+```
+
+## Payment Failed
+
+Triggered when a payment cannot be completed.
+
+**Event:** `payment.failed`
+
+### Payload
+
+```json
+{
+    "event": "payment.failed",
+    "amount": {
+        "value": "1,000.00"
+    },
+    "channel": {
+        "name": "TIGO-PESA",
+        "reference": null
+    },
+    "customer": {
+        "full_name": null,
+        "phone_number": "255673220579"
+    },
+    "metadata": {
+        "order_id": "128128",
+        "customer_note": "Test payment"
+    },
+    "failure_reason": "Transaction timedout",
+    "transaction_id": "fc6f023d-7cd1-4eb7-be83-ada32691a6c9",
+    "transaction_mode": "ussd",
+    "transaction_currency": "TZS",
+    "timestamp": "2026-07-12T15:06:59.272837Z",
+    "created_at": "2026-07-12T15:01:54.000000Z",
+    "updated_at": "2026-07-12T15:06:59.000000Z"
+}
+```
+
+## Notes
+
+- All timestamps are returned in UTC using ISO 8601 format.
+- Monetary values are returned as strings to preserve precision.
+- The `metadata` object is echoed back exactly as it was provided during payment creation, allowing you to associate webhook events with records in your application.
+- Always verify the webhook signature before processing the payload.

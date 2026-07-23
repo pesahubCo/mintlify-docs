@@ -29,7 +29,8 @@
             "group": "Account",
             "pages": [
               "balance",
-              "transactions"
+              "transactions",
+              "token"
             ]
           },
           {
@@ -58,6 +59,12 @@
             ]
           },
           "api-reference/status"
+        ]
+      },
+      {
+        "tab": "Web Hooks",
+        "pages": [
+          "payment"
         ]
       }
     ],
